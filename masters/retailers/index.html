@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Web Apps - Retailers</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f5f7fa;
+      }
+
+      /* Navbar */
+      .navbar {
+        background: linear-gradient(155deg, #2ec0cc, #0072ff);
+        color: white;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .navbar-brand {
+        font-size: 1.5rem;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .navbar-brand img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .navbar-user {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #47db34;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
+
+      .user-dropdown {
+        position: relative;
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .user-info i {
+        font-size: 1rem;
+        transition: transform 0.2s ease;
+      }
+
+      .user-info.active i {
+        transform: rotate(180deg);
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: white;
+        color: #333;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 180px;
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 1001;
+      }
+
+      .dropdown-menu.show {
+        display: flex;
+      }
+
+      .dropdown-item {
+        padding: 0.8rem 1rem;
+        text-decoration: none;
+        color: #333;
+        transition: background 0.2s ease;
+      }
+
+      .dropdown-item:hover {
+        background: #f0f0f0;
+      }
+
+      .logout-btn {
+        color: #e74c3c;
+        font-weight: 600;
+      }
+
+      .logout-btn:hover {
+        background: #fce4e4;
+      }
+
+      .dropdown-menu hr {
+        margin: 0;
+        border: none;
+        border-top: 1px solid #eee;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 65px;
+        width: 250px;
+        height: calc(100vh - 60px);
+        background: white;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+        transition: transform 0.3s ease;
+      }
+
+      .sidebar-menu {
+        list-style: none;
+        padding: 1rem 0;
+      }
+
+      .menu-item {
+        padding: 0.75rem 1.5rem;
+        cursor: pointer;
+        transition: background 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: #2c3e50;
+      }
+
+      .menu-item:hover {
+        background: #ecf0f1;
+      }
+
+      .menu-item.active {
+        background: #3b9cf6;
+        color: white;
+        border-left: 4px solid #3b9cf6;
+      }
+
+      .submenu {
+        list-style: none;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        background: #f8f9fa;
+      }
+
+      .submenu.show {
+        max-height: 500px;
+      }
+
+      .submenu-item.active a {
+        color: #3498db;
+        border-radius: 6px;
+      }
+
+      .submenu-item {
+        padding: 0.5rem 1.5rem 0.5rem 3rem;
+        cursor: pointer;
+        color: #555;
+        transition: background 0.2s;
+      }
+
+      .submenu-item:hover {
+        background: #e9ecef;
+      }
+
+      .menu-icon {
+        width: 20px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .menu-arrow {
+        margin-left: auto;
+        transition: transform 0.3s;
+      }
+
+      .menu-arrow.rotate {
+        transform: rotate(90deg);
+      }
+
+      .menu-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: inherit;
+        width: 100%;
+      }
+
+      .menu-link:hover {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .submenu-item a {
+        display: block;
+        text-decoration: none;
+        color: #555;
+      }
+
+      .submenu-item a:hover {
+        background: #e9ecef;
+        color: #000;
+      }
+
+      /* Main Content */
+      .main-content {
+        margin-left: 250px;
+        margin-top: 60px;
+        padding: 2rem;
+        min-height: calc(100vh - 60px);
+      }
+
+      .page-header {
+        margin-bottom: 2rem;
+      }
+
+      .page-title {
+        font-size: 2rem;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+      }
+
+      .page-subtitle {
+        color: #7f8c8d;
+      }
+
+      /* Stats Cards */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .stat-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: transform 0.2s;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .stat-info h3 {
+        color: #7f8c8d;
+        font-size: 0.9rem;
+        font-weight: normal;
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-info .stat-value {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #2c3e50;
+      }
+
+      .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+      }
+
+      .stat-icon.sales {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .stat-icon.farmers {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+      }
+
+      .stat-icon.retailers {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+      }
+
+      .stat-icon.users {
+        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        color: white;
+      }
+
+      /* Charts Section */
+      .charts-section {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .chart-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .chart-title {
+        font-size: 1.25rem;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+      }
+
+      /* Table */
+      .table-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      thead {
+        background: #f8f9fa;
+      }
+
+      th,
+      td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #ecf0f1;
+      }
+
+      th {
+        font-weight: 600;
+        color: #2c3e50;
+      }
+
+      tbody tr:hover {
+        background: #f8f9fa;
+      }
+
+      /* Badge */
+      .badge {
+        display: inline-block;
+        padding: 0.35rem 0.75rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        border-radius: 20px;
+        color: white;
+      }
+
+      /* Warna badge sesuai status */
+      .badge-primary {
+        background: #3498db; /* Pending */
+      }
+
+      .badge-warning {
+        background: #f1c40f; /* Diproses */
+        color: #2c3e50;
+      }
+
+      .badge-dark {
+        background: #2c3e50; /* Selesai */
+      }
+
+      .badge-success {
+        background: #2ecc71; /* Selesai */
+      }
+
+      .badge-danger {
+        background: #e74c3c; /* Selesai */
+      }
+
+      /* Tombol icon di kolom Action */
+      .action-buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .btn-icon {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        padding: 0.4rem 0.5rem;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+      }
+
+      /* Warna tombol sesuai fungsi */
+      .btn-show {
+        color: #3498db;
+      }
+      .btn-edit {
+        color: #2ecc71;
+      }
+      .btn-delete {
+        color: #e74c3c;
+      }
+
+      /* Hover efek lembut */
+      .btn-icon:hover {
+        background: #f0f0f0;
+        transform: scale(1.1);
+      }
+
+      /* Rapiin teks kolom tengah */
+      .text-center {
+        text-align: center;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .sidebar {
+          transform: translateX(-250px);
+        }
+
+        .sidebar.show {
+          transform: translateX(0);
+        }
+
+        .main-content {
+          margin-left: 0;
+        }
+
+        .stats-grid,
+        .charts-section {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <div
+          style="
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #1ea0af;
+          "
+        >
+          A
+        </div>
+        <span>Advanta</span>
+      </div>
+
+      <div class="navbar-user">
+        <div class="user-dropdown">
+          <div class="user-info" id="userDropdownToggle">
+            <span>Admin</span>
+            <div class="user-avatar">A</div>
+            <i class="fi fi-br-angle-down"></i>
+          </div>
+
+          <div class="dropdown-menu" id="userDropdownMenu">
+            <a href="#" class="dropdown-item">Profil Saya</a>
+            <hr />
+            <a href="../../auth/login.html" class="dropdown-item logout-btn"
+              >Logout</a
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <ul class="sidebar-menu">
+        <li class="menu-item">
+          <a href="../../index.html" class="menu-link">
+            <span class="menu-icon"><i class="fi fi-br-dashboard"></i></span>
+            <span class="menu-text">Dashboard</span>
+          </a>
+        </li>
+
+        <!-- Dropdown Masters -->
+        <li class="menu-item show active" id="masters-toggle">
+          <div class="menu-link">
+            <span class="menu-icon"><i class="fi fi-br-folder-open"></i></span>
+            <span class="menu-text">Masters</span>
+            <span class="menu-arrow" id="arrow-masters">▶</span>
+          </div>
+        </li>
+        <ul class="submenu" id="submenu-masters">
+          <li class="submenu-item active">
+            <a href="../farmers/index.html">Farmers</a>
+          </li>
+          <li class="submenu-item"><a href="index.html">Retailers</a></li>
+          <li class="submenu-item"><a href="../users/index.html">Users</a></li>
+        </ul>
+
+        <li class="menu-item">
+          <a href="../../knowledge_base/index.html" class="menu-link">
+            <span class="menu-icon"><i class="fi fi-br-book"></i></span>
+            <span class="menu-text">Knowledge Base</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="../../promotions/index.html" class="menu-link">
+            <span class="menu-icon"><i class="fi fi-br-megaphone"></i></span>
+            <span class="menu-text">Promotions</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="../../redeems/index.html" class="menu-link">
+            <span class="menu-icon"><i class="fi fi-br-gift"></i></span>
+            <span class="menu-text">Redeems</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="table-card">
+        <h2 class="chart-title">Daftar Retail</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>ID</th>
+              <th>Nama</th>
+              <th>Email</th>
+              <th>Whatsapp</th>
+              <th>Alamat</th>
+              <th>Status</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>
+                <span>10001</span>
+              </td>
+              <td>Hastyana</td>
+              <td>hastyana@email.com</td>
+              <td>0830305872</td>
+              <td>Jakarta</td>
+              <td><span class="badge badge-success">Aktif</span></td>
+              <td class="action-buttons">
+                <button class="btn-icon btn-show" title="Show">
+                  <i class="fi fi-br-eye"></i>
+                </button>
+                <button class="btn-icon btn-edit" title="Edit">
+                  <i class="fi fi-br-edit"></i>
+                </button>
+                <button class="btn-icon btn-delete" title="Delete">
+                  <i class="fi fi-br-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>
+                <span>10001</span>
+              </td>
+              <td>Hastyana</td>
+              <td>hastyana@email.com</td>
+              <td>0830305872</td>
+              <td>Jakarta</td>
+              <td><span class="badge badge-success">Aktif</span></td>
+              <td class="action-buttons">
+                <button class="btn-icon btn-show" title="Show">
+                  <i class="fi fi-br-eye"></i>
+                </button>
+                <button class="btn-icon btn-edit" title="Edit">
+                  <i class="fi fi-br-edit"></i>
+                </button>
+                <button class="btn-icon btn-delete" title="Delete">
+                  <i class="fi fi-br-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>
+                <span>10001</span>
+              </td>
+              <td>Hastyana</td>
+              <td>hastyana@email.com</td>
+              <td>0830305872</td>
+              <td>Jakarta</td>
+              <td><span class="badge badge-warning">Belum Aktivasi</span></td>
+              <td class="action-buttons">
+                <button class="btn-icon btn-show" title="Show">
+                  <i class="fi fi-br-eye"></i>
+                </button>
+                <button class="btn-icon btn-edit" title="Edit">
+                  <i class="fi fi-br-edit"></i>
+                </button>
+                <button class="btn-icon btn-delete" title="Delete">
+                  <i class="fi fi-br-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>
+                <span>10001</span>
+              </td>
+              <td>Hastyana</td>
+              <td>hastyana@email.com</td>
+              <td>0830305872</td>
+              <td>Jakarta</td>
+              <td><span class="badge badge-danger">Tidak Aktif</span></td>
+              <td class="action-buttons">
+                <button class="btn-icon btn-show" title="Show">
+                  <i class="fi fi-br-eye"></i>
+                </button>
+                <button class="btn-icon btn-edit" title="Edit">
+                  <i class="fi fi-br-edit"></i>
+                </button>
+                <button class="btn-icon btn-delete" title="Delete">
+                  <i class="fi fi-br-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>
+                <span>10001</span>
+              </td>
+              <td>Hastyana</td>
+              <td>hastyana@email.com</td>
+              <td>0830305872</td>
+              <td>Jakarta</td>
+              <td><span class="badge badge-success">Aktif</span></td>
+              <td class="action-buttons">
+                <button class="btn-icon btn-show" title="Show">
+                  <i class="fi fi-br-eye"></i>
+                </button>
+                <button class="btn-icon btn-edit" title="Edit">
+                  <i class="fi fi-br-edit"></i>
+                </button>
+                <button class="btn-icon btn-delete" title="Delete">
+                  <i class="fi fi-br-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const mastersToggle = document.getElementById("masters-toggle");
+        const submenu = document.getElementById("submenu-masters");
+        const arrow = document.getElementById("arrow-masters");
+        const submenuItems = document.querySelectorAll(
+          "#submenu-masters .submenu-item"
+        );
+
+        // Toggle dropdown Masters
+        mastersToggle.addEventListener("click", () => {
+          submenu.classList.toggle("show");
+          arrow.classList.toggle("rotate");
+        });
+
+        // Cek halaman aktif berdasarkan URL
+        const currentPath = window.location.pathname;
+
+        submenuItems.forEach((item) => {
+          const link = item.querySelector("a");
+          const linkPath = new URL(link.href).pathname;
+
+          // Jika URL cocok dengan halaman sekarang
+          if (
+            currentPath.endsWith(linkPath) ||
+            currentPath.includes(linkPath)
+          ) {
+            // Tambahkan class aktif pada submenu dan parent-nya
+            item.classList.add("active");
+            submenu.classList.add("show");
+            arrow.classList.add("rotate");
+            mastersToggle.classList.add("active");
+          } else {
+            item.classList.remove("active");
+          }
+
+          // Event klik untuk ubah active saat di halaman sama (tanpa reload)
+          link.addEventListener("click", function () {
+            submenuItems.forEach((i) => i.classList.remove("active"));
+            item.classList.add("active");
+          });
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const toggle = document.getElementById("userDropdownToggle");
+        const menu = document.getElementById("userDropdownMenu");
+
+        toggle.addEventListener("click", () => {
+          menu.classList.toggle("show");
+          toggle.classList.toggle("active");
+        });
+
+        // Tutup dropdown kalau klik di luar
+        document.addEventListener("click", (e) => {
+          if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+            menu.classList.remove("show");
+            toggle.classList.remove("active");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

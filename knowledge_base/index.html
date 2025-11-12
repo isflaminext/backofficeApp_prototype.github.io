@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Web Apps - Knowledge Base</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f5f7fa;
+      }
+
+      /* Navbar */
+      .navbar {
+        background: linear-gradient(155deg, #2ec0cc, #0072ff);
+        color: white;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .navbar-brand {
+        font-size: 1.5rem;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .navbar-brand img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .navbar-user {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #47db34;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
+
+      .user-dropdown {
+        position: relative;
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .user-info i {
+        font-size: 1rem;
+        transition: transform 0.2s ease;
+      }
+
+      .user-info.active i {
+        transform: rotate(180deg);
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: white;
+        color: #333;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 180px;
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 1001;
+      }
+
+      .dropdown-menu.show {
+        display: flex;
+      }
+
+      .dropdown-item {
+        padding: 0.8rem 1rem;
+        text-decoration: none;
+        color: #333;
+        transition: background 0.2s ease;
+      }
+
+      .dropdown-item:hover {
+        background: #f0f0f0;
+      }
+
+      .logout-btn {
+        color: #e74c3c;
+        font-weight: 600;
+      }
+
+      .logout-btn:hover {
+        background: #fce4e4;
+      }
+
+      .dropdown-menu hr {
+        margin: 0;
+        border: none;
+        border-top: 1px solid #eee;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 65px;
+        width: 250px;
+        height: calc(100vh - 60px);
+        background: white;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+        transition: transform 0.3s ease;
+      }
+
+      .sidebar-menu {
+        list-style: none;
+        padding: 1rem 0;
+      }
+
+      .menu-item {
+        padding: 0.75rem 1.5rem;
+        cursor: pointer;
+        transition: background 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: #2c3e50;
+      }
+
+      .menu-item:hover {
+        background: #ecf0f1;
+      }
+
+      .menu-item.active {
+        background: #3b9cf6;
+        color: white;
+        border-left: 4px solid #3b9cf6;
+      }
+
+      .submenu {
+        list-style: none;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        background: #f8f9fa;
+      }
+
+      .submenu.show {
+        max-height: 500px;
+      }
+
+      .submenu-item {
+        padding: 0.5rem 1.5rem 0.5rem 3rem;
+        cursor: pointer;
+        color: #555;
+        transition: background 0.2s;
+      }
+
+      .submenu-item:hover {
+        background: #e9ecef;
+      }
+
+      .menu-icon {
+        width: 20px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .menu-arrow {
+        margin-left: auto;
+        transition: transform 0.3s;
+      }
+
+      .menu-arrow.rotate {
+        transform: rotate(90deg);
+      }
+
+      .menu-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: inherit;
+        width: 100%;
+      }
+
+      .menu-link:hover {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .submenu-item a {
+        display: block;
+        text-decoration: none;
+        color: #555;
+      }
+
+      .submenu-item a:hover {
+        background: #e9ecef;
+        color: #000;
+      }
+
+      /* Main Content */
+      .main-content {
+        margin-left: 250px;
+        margin-top: 60px;
+        padding: 2rem;
+        min-height: calc(100vh - 60px);
+      }
+
+      .page-header {
+        margin-bottom: 2rem;
+      }
+
+      .page-title {
+        font-size: 2rem;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+      }
+
+      .page-subtitle {
+        color: #7f8c8d;
+      }
+
+      /* Stats Cards */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .stat-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: transform 0.2s;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .stat-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+      }
+
+      .stat-info h4 {
+        color: #2c3e50;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-info p {
+        color: #7f8c8d;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+      }
+
+      /* Baris bawah: link & tombol sejajar */
+      .stat-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      /* Tombol icon */
+      .btn-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ffc107;
+        color: #333;
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        font-size: 1.1rem;
+      }
+
+      .btn-icon:hover {
+        background: #e0a800;
+        color: white;
+      }
+
+      /* Link baca selengkapnya */
+      .read-more {
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+      }
+
+      .read-more:hover {
+        color: #1d6fa5;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .sidebar {
+          transform: translateX(-250px);
+        }
+
+        .sidebar.show {
+          transform: translateX(0);
+        }
+
+        .main-content {
+          margin-left: 0;
+        }
+
+        .stats-grid,
+        .charts-section {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <div
+          style="
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #1ea0af;
+          "
+        >
+          A
+        </div>
+        <span>Advanta</span>
+      </div>
+
+      <div class="navbar-user">
+        <div class="user-dropdown">
+          <div class="user-info" id="userDropdownToggle">
+            <span>Admin</span>
+            <div class="user-avatar">A</div>
+            <i class="fi fi-br-angle-down"></i>
+          </div>
+
+          <div class="dropdown-menu" id="userDropdownMenu">
+            <a href="#" class="dropdown-item">Profil Saya</a>
+            <hr />
+            <a href="../auth/login.html" class="dropdown-item logout-btn"
+              >Logout</a
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <ul class="sidebar-menu">
+        <li class="menu-item">
+          <a href="../index.html" class="menu-link">
+            <span class="menu-icon"><i class="fi fi-br-dashboard"></i></span>
+            <span class="menu-text">Dashboard</span>
+          </a>
+        </li>
+
+        <!-- Dropdown Masters -->
+        <li class="menu-item" id="masters-toggle">
+          <div class="menu-link">
+            <span class="menu-icon"><i class="fi fi-br-folder-open"></i></span>
+            <span class="menu-text">Masters</span>
+            <span class="menu-arrow" id="arrow-masters">▶</span>
+          </div>
+        </li>
+        <ul class="submenu" id="submenu-masters">
+          <li class="submenu-item">
+            <a href="../masters/farmers/index.html">Farmers</a>
+          </li>
+          <li class="submenu-item">
+            <a href="../masters/retailers/index.html">Retailers</a>
+          </li>
+          <li class="submenu-item">
+            <a href="../masters/users/index.html">Users</a>
+          </li>
+        </ul>
+
+        <li class="menu-item active">
+          <a href="index.html" class="menu-link">
+            <span class="menu-icon"><i class="fi fi-br-book"></i></span>
+            <span class="menu-text">Knowledge Base</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="../promotions/index.html" class="menu-link">
+            <span class="menu-icon"><i class="fi fi-br-megaphone"></i></span>
+            <span class="menu-text">Promotions</span>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="../redeems/index.html" class="menu-link">
+            <span class="menu-icon"><i class="fi fi-br-gift"></i></span>
+            <span class="menu-text">Redeems</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="page-header">
+        <h1 class="page-title">Knowledge Base</h1>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-info">
+            <h4>Judul Knowledge Base</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <div class="stat-footer">
+              <a href="#" class="read-more">Baca Selengkapnya</a>
+              <a href="#" class="btn-icon"
+                ><i class="fi fi-br-file-edit"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <h4>Judul Knowledge Base</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <div class="stat-footer">
+              <a href="#" class="read-more">Baca Selengkapnya</a>
+              <a href="#" class="btn-icon"
+                ><i class="fi fi-br-file-edit"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <h4>Judul Knowledge Base</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <div class="stat-footer">
+              <a href="#" class="read-more">Baca Selengkapnya</a>
+              <a href="#" class="btn-icon"
+                ><i class="fi fi-br-file-edit"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <h4>Judul Knowledge Base</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <div class="stat-footer">
+              <a href="#" class="read-more">Baca Selengkapnya</a>
+              <a href="#" class="btn-icon"
+                ><i class="fi fi-br-file-edit"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <h4>Judul Knowledge Base</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <div class="stat-footer">
+              <a href="#" class="read-more">Baca Selengkapnya</a>
+              <a href="#" class="btn-icon"
+                ><i class="fi fi-br-file-edit"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <h4>Judul Knowledge Base</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <div class="stat-footer">
+              <a href="#" class="read-more">Baca Selengkapnya</a>
+              <a href="#" class="btn-icon"
+                ><i class="fi fi-br-file-edit"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const mastersToggle = document.getElementById("masters-toggle");
+        const submenu = document.getElementById("submenu-masters");
+        const arrow = document.getElementById("arrow-masters");
+
+        mastersToggle.addEventListener("click", () => {
+          submenu.classList.toggle("show");
+          arrow.classList.toggle("rotate");
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const toggle = document.getElementById("userDropdownToggle");
+        const menu = document.getElementById("userDropdownMenu");
+
+        toggle.addEventListener("click", () => {
+          menu.classList.toggle("show");
+          toggle.classList.toggle("active");
+        });
+
+        // Tutup dropdown kalau klik di luar
+        document.addEventListener("click", (e) => {
+          if (!toggle.contains(e.target) && !menu.contains(e.target)) {
+            menu.classList.remove("show");
+            toggle.classList.remove("active");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
