@@ -36,6 +36,26 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
 
+      .navbar-left {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        width: 40px;
+        height: 40px;
+        align-items: center;
+        justify-content: center;
+      }
+
       .navbar-brand {
         font-size: 1.5rem;
         font-weight: bold;
@@ -44,11 +64,21 @@
         gap: 0.5rem;
       }
 
-      .navbar-brand img {
-        width: 50px;
-        height: 50px;
+      .navbar-brand-logo {
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
-        object-fit: cover;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #1ea0af;
+        font-size: 1.2rem;
+      }
+
+      .navbar-brand-text {
+        display: inline;
       }
 
       .navbar-user {
@@ -78,6 +108,10 @@
         gap: 0.5rem;
         cursor: pointer;
         user-select: none;
+      }
+
+      .user-name {
+        display: inline;
       }
 
       .user-info i {
@@ -140,11 +174,25 @@
         left: 0;
         top: 65px;
         width: 250px;
-        height: calc(100vh - 60px);
+        height: calc(100vh - 65px);
         background: white;
         box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
         overflow-y: auto;
         transition: transform 0.3s ease;
+        z-index: 999;
+      }
+
+      .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 65px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 998;
+        opacity: 0;
+        transition: opacity 0.3s ease;
       }
 
       .sidebar-menu {
@@ -240,9 +288,10 @@
       /* Main Content */
       .main-content {
         margin-left: 250px;
-        margin-top: 60px;
+        margin-top: 65px;
         padding: 2rem;
-        min-height: calc(100vh - 60px);
+        min-height: calc(100vh - 65px);
+        transition: margin-left 0.3s ease;
       }
 
       .page-header {
@@ -329,7 +378,7 @@
       /* Charts Section */
       .charts-section {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
         gap: 1.5rem;
         margin-bottom: 2rem;
       }
@@ -353,11 +402,13 @@
         padding: 1.5rem;
         border-radius: 10px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow-x: auto;
       }
 
       table {
         width: 100%;
         border-collapse: collapse;
+        min-width: 800px;
       }
 
       thead {
@@ -374,6 +425,7 @@
       th {
         font-weight: 600;
         color: #2c3e50;
+        white-space: nowrap;
       }
 
       tbody tr:hover {
@@ -388,31 +440,31 @@
         font-weight: 500;
         border-radius: 20px;
         color: white;
+        white-space: nowrap;
       }
 
-      /* Warna badge sesuai status */
       .badge-primary {
-        background: #3498db; /* Pending */
+        background: #3498db;
       }
 
       .badge-warning {
-        background: #f1c40f; /* Diproses */
+        background: #f1c40f;
         color: #2c3e50;
       }
 
       .badge-dark {
-        background: #2c3e50; /* Selesai */
+        background: #2c3e50;
       }
 
       .badge-success {
-        background: #2ecc71; /* Selesai */
+        background: #2ecc71;
       }
 
       .badge-danger {
-        background: #e74c3c; /* Selesai */
+        background: #e74c3c;
       }
 
-      /* Tombol icon di kolom Action */
+      /* Action Buttons */
       .action-buttons {
         display: flex;
         justify-content: center;
@@ -430,45 +482,172 @@
         transition: all 0.2s ease;
       }
 
-      /* Warna tombol sesuai fungsi */
       .btn-show {
         color: #3498db;
       }
+      
       .btn-edit {
         color: #2ecc71;
       }
+      
       .btn-delete {
         color: #e74c3c;
       }
 
-      /* Hover efek lembut */
       .btn-icon:hover {
         background: #f0f0f0;
         transform: scale(1.1);
       }
 
-      /* Rapiin teks kolom tengah */
       .text-center {
         text-align: center;
       }
 
-      /* Responsive */
+      /* Mobile Responsive */
       @media (max-width: 768px) {
+        .navbar {
+          padding: 1rem;
+        }
+
+        .menu-toggle {
+          display: flex;
+        }
+
+        .navbar-brand-text {
+          display: none;
+        }
+
+        .navbar-brand-logo {
+          width: 35px;
+          height: 35px;
+          font-size: 1rem;
+        }
+
+        .user-name {
+          display: none;
+        }
+
+        .user-avatar {
+          width: 35px;
+          height: 35px;
+        }
+
         .sidebar {
-          transform: translateX(-250px);
+          transform: translateX(-100%);
         }
 
         .sidebar.show {
           transform: translateX(0);
         }
 
-        .main-content {
-          margin-left: 0;
+        .sidebar-overlay.show {
+          display: block;
+          opacity: 1;
         }
 
-        .stats-grid,
+        .main-content {
+          margin-left: 0;
+          padding: 1rem;
+        }
+
+        .page-title {
+          font-size: 1.5rem;
+        }
+
+        .page-subtitle {
+          font-size: 0.9rem;
+        }
+
+        .stats-grid {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        .stat-card {
+          padding: 1rem;
+        }
+
+        .stat-info .stat-value {
+          font-size: 1.5rem;
+        }
+
+        .stat-icon {
+          width: 50px;
+          height: 50px;
+          font-size: 1.2rem;
+        }
+
         .charts-section {
           grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        .chart-card {
+          padding: 1rem;
+        }
+
+        .chart-title {
+          font-size: 1.1rem;
+        }
+
+        .table-card {
+          padding: 1rem;
+        }
+
+        .dropdown-menu {
+          right: -10px;
+        }
+
+        table {
+          font-size: 0.85rem;
+          min-width: 700px;
+        }
+
+        th,
+        td {
+          padding: 0.75rem 0.5rem;
+        }
+
+        .badge {
+          font-size: 0.75rem;
+          padding: 0.25rem 0.5rem;
+        }
+
+        .btn-icon {
+          font-size: 0.9rem;
+          padding: 0.3rem 0.4rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .navbar {
+          padding: 0.75rem;
+        }
+
+        .main-content {
+          padding: 0.75rem;
+        }
+
+        .page-title {
+          font-size: 1.25rem;
+        }
+
+        .table-card {
+          padding: 0.75rem;
+        }
+
+        table {
+          font-size: 0.8rem;
+          min-width: 650px;
+        }
+
+        th,
+        td {
+          padding: 0.5rem 0.4rem;
+        }
+
+        .action-buttons {
+          gap: 0.25rem;
         }
       }
     </style>
@@ -476,29 +655,20 @@
   <body>
     <!-- Navbar -->
     <nav class="navbar">
-      <div class="navbar-brand">
-        <div
-          style="
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #1ea0af;
-          "
-        >
-          A
+      <div class="navbar-left">
+        <button class="menu-toggle" id="menuToggle">
+          <i class="fi fi-br-menu-burger"></i>
+        </button>
+        <div class="navbar-brand">
+          <div class="navbar-brand-logo">A</div>
+          <span class="navbar-brand-text">Advanta</span>
         </div>
-        <span>Advanta</span>
       </div>
 
       <div class="navbar-user">
         <div class="user-dropdown">
           <div class="user-info" id="userDropdownToggle">
-            <span>Admin</span>
+            <span class="user-name">Admin</span>
             <div class="user-avatar">A</div>
             <i class="fi fi-br-angle-down"></i>
           </div>
@@ -506,25 +676,23 @@
           <div class="dropdown-menu" id="userDropdownMenu">
             <a href="#" class="dropdown-item">Profil Saya</a>
             <hr />
-            <a href="../auth/login.html" class="dropdown-item logout-btn"
-              >Logout</a
-            >
+            <a href="../index.html" class="dropdown-item logout-btn">Logout</a>
           </div>
         </div>
       </div>
     </nav>
 
-    <!-- Sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <aside class="sidebar" id="sidebar">
       <ul class="sidebar-menu">
         <li class="menu-item">
-          <a href="../index.html" class="menu-link">
+          <a href="../dashboard/index.html" class="menu-link">
             <span class="menu-icon"><i class="fi fi-br-dashboard"></i></span>
             <span class="menu-text">Dashboard</span>
           </a>
         </li>
 
-        <!-- Dropdown Masters -->
         <li class="menu-item" id="masters-toggle">
           <div class="menu-link">
             <span class="menu-icon"><i class="fi fi-br-folder-open"></i></span>
@@ -585,9 +753,7 @@
           <tbody>
             <tr>
               <td>1</td>
-              <td>
-                <span>INV-11112500001</span>
-              </td>
+              <td>INV-11112500001</td>
               <td>(10001) Hastyana</td>
               <td>Cangkul</td>
               <td>60 Koin</td>
@@ -607,9 +773,7 @@
             </tr>
             <tr>
               <td>2</td>
-              <td>
-                <span>INV-11112500002</span>
-              </td>
+              <td>INV-11112500002</td>
               <td>(10001) Hastyana</td>
               <td>Cangkul</td>
               <td>60 Koin</td>
@@ -629,9 +793,7 @@
             </tr>
             <tr>
               <td>3</td>
-              <td>
-                <span>INV-11112500003</span>
-              </td>
+              <td>INV-11112500003</td>
               <td>(10001) Hastyana</td>
               <td>Cangkul</td>
               <td>60 Koin</td>
@@ -650,10 +812,8 @@
               </td>
             </tr>
             <tr>
-              <td>3</td>
-              <td>
-                <span>INV-11112500003</span>
-              </td>
+              <td>4</td>
+              <td>INV-11112500004</td>
               <td>(10001) Hastyana</td>
               <td>Cangkul</td>
               <td>60 Koin</td>
@@ -672,10 +832,8 @@
               </td>
             </tr>
             <tr>
-              <td>4</td>
-              <td>
-                <span>INV-11112500004</span>
-              </td>
+              <td>5</td>
+              <td>INV-11112500005</td>
               <td>(10001) Hastyana</td>
               <td>Cangkul</td>
               <td>60 Koin</td>
@@ -699,27 +857,51 @@
     </main>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const mastersToggle = document.getElementById("masters-toggle");
-        const submenu = document.getElementById("submenu-masters");
-        const arrow = document.getElementById("arrow-masters");
+      // Mobile menu toggle
+      const menuToggle = document.getElementById("menuToggle");
+      const sidebar = document.getElementById("sidebar");
+      const sidebarOverlay = document.getElementById("sidebarOverlay");
 
-        mastersToggle.addEventListener("click", () => {
-          submenu.classList.toggle("show");
-          arrow.classList.toggle("rotate");
+      menuToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("show");
+        sidebarOverlay.classList.toggle("show");
+      });
+
+      sidebarOverlay.addEventListener("click", () => {
+        sidebar.classList.remove("show");
+        sidebarOverlay.classList.remove("show");
+      });
+
+      // Close sidebar when clicking menu item on mobile
+      const menuItems = document.querySelectorAll(".menu-item a, .submenu-item a");
+      menuItems.forEach(item => {
+        item.addEventListener("click", () => {
+          if (window.innerWidth <= 768) {
+            sidebar.classList.remove("show");
+            sidebarOverlay.classList.remove("show");
+          }
         });
       });
 
+      // Submenu toggle
+      document.getElementById("masters-toggle").addEventListener("click", () => {
+        const submenu = document.getElementById("submenu-masters");
+        const arrow = document.getElementById("arrow-masters");
+        submenu.classList.toggle("show");
+        arrow.classList.toggle("rotate");
+      });
+
+      // User dropdown
       document.addEventListener("DOMContentLoaded", function () {
         const toggle = document.getElementById("userDropdownToggle");
         const menu = document.getElementById("userDropdownMenu");
 
-        toggle.addEventListener("click", () => {
+        toggle.addEventListener("click", (e) => {
+          e.stopPropagation();
           menu.classList.toggle("show");
           toggle.classList.toggle("active");
         });
 
-        // Tutup dropdown kalau klik di luar
         document.addEventListener("click", (e) => {
           if (!toggle.contains(e.target) && !menu.contains(e.target)) {
             menu.classList.remove("show");

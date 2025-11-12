@@ -1,842 +1,255 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Web Apps - Dashboard</title>
+    <title>Admin Web Apps - Login</title>
     <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
       rel="stylesheet"
-      href="https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css"
     />
     <style>
       * {
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
         margin: 0;
         padding: 0;
-        box-sizing: border-box;
       }
 
       body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: #f5f7fa;
-      }
-
-      .navbar {
-        background: linear-gradient(155deg, #2ec0cc, #0072ff);
-        color: white;
-        padding: 1rem 2rem;
+        height: 100vh;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-
-      .navbar-brand {
-        font-size: 1.5rem;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      .navbar-brand img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        object-fit: cover;
-      }
-
-      .navbar-user {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-      }
-
-      .user-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: #47db34;
-        display: flex;
-        align-items: center;
         justify-content: center;
-        font-weight: bold;
-      }
-
-      .user-dropdown {
+        align-items: center;
+        background: linear-gradient(135deg, #2ec0cc, #0072ff);
         position: relative;
+        overflow: hidden;
       }
 
-      .user-info {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        cursor: pointer;
-        user-select: none;
-      }
-
-      .user-info i {
-        font-size: 1rem;
-        transition: transform 0.2s ease;
-      }
-
-      .user-info.active i {
-        transform: rotate(180deg);
-      }
-
-      .dropdown-menu {
+      body::before {
+        content: "";
         position: absolute;
-        top: 60px;
-        right: 0;
-        background: white;
-        color: #333;
-        border-radius: 8px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        width: 180px;
-        display: none;
-        flex-direction: column;
-        overflow: hidden;
-        z-index: 1001;
-      }
-
-      .dropdown-menu.show {
-        display: flex;
-      }
-
-      .dropdown-item {
-        padding: 0.8rem 1rem;
-        text-decoration: none;
-        color: #333;
-        transition: background 0.2s ease;
-      }
-
-      .dropdown-item:hover {
-        background: #f0f0f0;
-      }
-
-      .logout-btn {
-        color: #e74c3c;
-        font-weight: 600;
-      }
-
-      .logout-btn:hover {
-        background: #fce4e4;
-      }
-
-      .dropdown-menu hr {
-        margin: 0;
-        border: none;
-        border-top: 1px solid #eee;
-      }
-
-      /* Sidebar */
-      .sidebar {
-        position: fixed;
-        left: 0;
-        top: 65px;
-        width: 250px;
-        height: calc(100vh - 60px);
-        background: white;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-        overflow-y: auto;
-        transition: transform 0.3s ease;
-      }
-
-      .sidebar-menu {
-        list-style: none;
-        padding: 1rem 0;
-      }
-
-      .menu-item {
-        padding: 0.75rem 1.5rem;
-        cursor: pointer;
-        transition: background 0.2s;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        color: #2c3e50;
-      }
-
-      .menu-item:hover {
-        background: #ecf0f1;
-      }
-
-      .menu-item.active {
-        background: #3b9cf6;
-        color: white;
-        border-left: 4px solid #3b9cf6;
-      }
-
-      .submenu {
-        list-style: none;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease;
-        background: #f8f9fa;
-      }
-
-      .submenu.show {
-        max-height: 500px;
-      }
-
-      .submenu-item {
-        padding: 0.5rem 1.5rem 0.5rem 3rem;
-        cursor: pointer;
-        color: #555;
-        transition: background 0.2s;
-      }
-
-      .submenu-item:hover {
-        background: #e9ecef;
-      }
-
-      .menu-icon {
-        width: 20px;
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .menu-arrow {
-        margin-left: auto;
-        transition: transform 0.3s;
-      }
-
-      .menu-arrow.rotate {
-        transform: rotate(90deg);
-      }
-
-      .menu-link {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        text-decoration: none;
-        color: inherit;
+        top: 50%;
+        left: 50%;
         width: 100%;
+        height: 100%;
+        background-image: url("../../../assets/undraw_predictive-analytics_6gsu.svg");
+        background-repeat: repeat;
+        background-position: center;
+        background-size: contain;
+        opacity: 0.12;
+        transform: translate(-50%, -50%);
+        z-index: 0;
       }
 
-      .menu-link:hover {
-        text-decoration: none;
-        color: inherit;
-      }
-
-      .submenu-item a {
-        display: block;
-        text-decoration: none;
-        color: #555;
-      }
-
-      .submenu-item a:hover {
-        background: #e9ecef;
-        color: #000;
-      }
-
-      .main-content {
-        margin-left: 250px;
-        margin-top: 60px;
-        padding: 2rem;
-        min-height: calc(100vh - 60px);
-      }
-
-      .page-header {
-        margin-bottom: 2rem;
-      }
-
-      .page-title {
-        font-size: 2rem;
-        color: #2c3e50;
-        margin-bottom: 0.5rem;
-      }
-
-      .page-subtitle {
-        color: #7f8c8d;
-      }
-
-      .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-      }
-
-      .stat-card {
-        background: white;
+      .login-container {
+        position: relative;
+        background: #fff;
+        width: 400px;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         padding: 1.5rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: all 0.3s ease;
+        z-index: 1;
+      }
+
+      .login-container:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      }
+
+      .logo {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        transition: transform 0.2s;
-      }
-
-      .stat-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      }
-
-      .stat-info h3 {
-        color: #7f8c8d;
-        font-size: 0.9rem;
-        font-weight: normal;
-        margin-bottom: 0.5rem;
-      }
-
-      .stat-info .stat-value {
-        font-size: 2rem;
-        font-weight: bold;
-        color: #2c3e50;
-      }
-
-      .stat-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
         justify-content: center;
-        font-size: 1.5rem;
+        align-items: center;
+        margin: 0 auto 1rem;
+        border: 3px solid #0072ff;
       }
 
-      .stat-icon.sales {
-        background: #c5cffc;
-        color: #4f46e5;
+      .logo img {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
       }
 
-      .stat-icon.farmers {
-        background: #c0ffc0;
-        color: #46e546;
+      h2 {
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 0.4rem;
       }
 
-      .stat-icon.retailers {
-        background: #f3daa4;
-        color: #e5b346;
-      }
-
-      .stat-icon.users {
-        background: #e499f7;
-        color: #c546e5;
-      }
-
-      .charts-section {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        gap: 1.5rem;
+      p.subtitle {
+        color: #6b7280;
+        font-size: 0.95rem;
         margin-bottom: 2rem;
       }
 
-      .chart-card {
-        background: white;
-        padding: 1.5rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      }
-
-      .chart-title {
-        font-size: 1.25rem;
-        color: #2c3e50;
+      .input-group {
+        text-align: left;
         margin-bottom: 1rem;
       }
 
-      .chart-container {
-        position: relative;
-        height: 300px;
-        width: 100%;
-      }
-
-      .chart-container canvas {
-        width: 100% !important;
-        height: 100% !important;
-      }
-
-      .table-card {
-        background: white;
-        padding: 1.5rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      thead {
-        background: #f8f9fa;
-      }
-
-      th,
-      td {
-        padding: 1rem;
-        text-align: left;
-        border-bottom: 1px solid #ecf0f1;
-      }
-
-      th {
+      .input-group label {
+        display: block;
         font-weight: 600;
-        color: #2c3e50;
+        color: #374151;
+        margin-bottom: 0.3rem;
+        font-size: 0.9rem;
       }
 
-      tbody tr:hover {
-        background: #f8f9fa;
+      .input-group input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
       }
 
-      .badge {
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
+      .input-group input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      }
+
+      .forgot {
+        text-align: right;
         font-size: 0.85rem;
-        font-weight: 500;
+        margin-bottom: 1.5rem;
       }
 
-      .badge.active {
-        background: #d4edda;
-        color: #155724;
+      .forgot a {
+        color: #3b82f6;
+        text-decoration: none;
       }
 
-      .badge.pending {
-        background: #fff3cd;
-        color: #856404;
+      .forgot a:hover {
+        text-decoration: underline;
       }
 
-      @media (max-width: 768px) {
-        .sidebar {
-          transform: translateX(-250px);
-        }
+      .btn-primary {
+        width: 100%;
+        background: #2563eb;
+        color: white;
+        font-weight: 600;
+        padding: 0.75rem;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
 
-        .sidebar.show {
-          transform: translateX(0);
-        }
+      .btn-primary:hover {
+        background: #1d4ed8;
+      }
 
-        .main-content {
-          margin-left: 0;
-        }
+      .divider {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 1.5rem 0;
+        color: #9ca3af;
+        font-size: 0.9rem;
+      }
 
-        .stats-grid,
-        .charts-section {
-          grid-template-columns: 1fr;
+      .divider::before,
+      .divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #e5e7eb;
+        margin: 0 10px;
+      }
+
+      .btn-google {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding: 0.75rem;
+        background: #fff;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        font-weight: 600;
+        color: #374151;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-google:hover {
+        background: #f9fafb;
+      }
+
+      .btn-google img {
+        width: 20px;
+        height: 20px;
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 2rem;
+        font-size: 0.85rem;
+        color: #6b7280;
+      }
+
+      footer a {
+        color: #2563eb;
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 480px) {
+        .login-container {
+          width: 90%;
+          padding: 2rem;
         }
       }
     </style>
   </head>
   <body>
-    <nav class="navbar">
-      <div class="navbar-brand">
-        <div
-          style="
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #1ea0af;
-          "
-        >
-          A
-        </div>
-        <span>Advanta</span>
+    <div class="login-container">
+      <div class="logo">
+        <img src="assets/advanta.png" alt="logo" />
       </div>
+      <h2>Welcome Back!</h2>
+      <p class="subtitle">Sign in to continue to your dashboard</p>
 
-      <div class="navbar-user">
-        <div class="user-dropdown">
-          <div class="user-info" id="userDropdownToggle">
-            <span>Admin</span>
-            <div class="user-avatar">A</div>
-            <i class="fi fi-br-angle-down"></i>
-          </div>
-
-          <div class="dropdown-menu" id="userDropdownMenu">
-            <a href="#" class="dropdown-item">Profil Saya</a>
-            <hr />
-            <a href="../auth/login.html" class="dropdown-item logout-btn"
-              >Logout</a
-            >
-          </div>
+      <form action="#" method="POST"
+        onsubmit="event.preventDefault(); window.location.href='dashboard/index.html';">
+        <div class="input-group">
+          <label>Username</label>
+          <input type="text" placeholder="Enter your username" required />
         </div>
-      </div>
-    </nav>
 
-    <aside class="sidebar" id="sidebar">
-      <ul class="sidebar-menu">
-        <li class="menu-item active">
-          <a href="index.html" class="menu-link">
-            <span class="menu-icon"><i class="fi fi-br-dashboard"></i></span>
-            <span class="menu-text">Dashboard</span>
-          </a>
-        </li>
-
-        <!-- Dropdown Masters -->
-        <li class="menu-item" id="masters-toggle">
-          <div class="menu-link">
-            <span class="menu-icon"><i class="fi fi-br-folder-open"></i></span>
-            <span class="menu-text">Masters</span>
-            <span class="menu-arrow" id="arrow-masters">▶</span>
-          </div>
-        </li>
-        <ul class="submenu" id="submenu-masters">
-          <li class="submenu-item">
-            <a href="../masters/farmers/index.html">Farmers</a>
-          </li>
-          <li class="submenu-item">
-            <a href="../masters/retailers/index.html">Retailers</a>
-          </li>
-          <li class="submenu-item">
-            <a href="../masters/users/index.html">Users</a>
-          </li>
-        </ul>
-
-        <li class="menu-item">
-          <a href="../knowledge_base/index.html" class="menu-link">
-            <span class="menu-icon"><i class="fi fi-br-book"></i></span>
-            <span class="menu-text">Knowledge Base</span>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="../promotions/index.html" class="menu-link">
-            <span class="menu-icon"><i class="fi fi-br-megaphone"></i></span>
-            <span class="menu-text">Promotions</span>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a href="../redeems/index.html" class="menu-link">
-            <span class="menu-icon"><i class="fi fi-br-gift"></i></span>
-            <span class="menu-text">Redeems</span>
-          </a>
-        </li>
-      </ul>
-    </aside>
-
-    <main class="main-content">
-      <div class="page-header">
-        <h1 class="page-title">Dashboard</h1>
-        <p class="page-subtitle">
-          Selamat datang di sistem manajemen penjualan pertanian
-        </p>
-      </div>
-
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-info">
-            <h3>Total Sales</h3>
-            <div class="stat-value">Rp 125.5M</div>
-          </div>
-          <div class="stat-icon sales">
-            <i class="fi fi-br-sack-dollar"></i>
-          </div>
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" placeholder="Enter your password" required />
         </div>
-        <div class="stat-card">
-          <div class="stat-info">
-            <h3>Petani Terdaftar</h3>
-            <div class="stat-value">1,248</div>
-          </div>
-          <div class="stat-icon farmers">
-            <i class="fi fi-br-users-alt"></i>
-          </div>
+
+        <div class="forgot">
+          <a href="#">Forgot password?</a>
         </div>
-        <div class="stat-card">
-          <div class="stat-info">
-            <h3>Retailer Terdaftar</h3>
-            <div class="stat-value">342</div>
-          </div>
-          <div class="stat-icon retailers">
-            <i class="fi fi-br-users-alt"></i>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-info">
-            <h3>User Terdaftar</h3>
-            <div class="stat-value">5,647</div>
-          </div>
-          <div class="stat-icon users"><i class="fi fi-br-users-alt"></i></div>
-        </div>
-      </div>
 
-      <div class="charts-section">
-        <div class="chart-card">
-          <h2 class="chart-title">Penjualan Bulanan</h2>
-          <div class="chart-container">
-            <canvas id="salesChart"></canvas>
-          </div>
-        </div>
-        <div class="chart-card">
-          <h2 class="chart-title">Produk Terlaris</h2>
-          <div class="chart-container">
-            <canvas id="productChart"></canvas>
-          </div>
-        </div>
-      </div>
+        <button type="submit" class="btn-primary">Sign In</button>
+      </form>
 
-      <div class="table-card">
-        <h2 class="chart-title">Transaksi Terbaru</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Petani</th>
-              <th>Produk</th>
-              <th>Jumlah</th>
-              <th>Total</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>#TRX001</td>
-              <td>Budi Santoso</td>
-              <td>Beras Premium</td>
-              <td>100 kg</td>
-              <td>Rp 1.250.000</td>
-              <td><span class="badge active">Selesai</span></td>
-            </tr>
-            <tr>
-              <td>#TRX002</td>
-              <td>Siti Rahayu</td>
-              <td>Jagung Manis</td>
-              <td>50 kg</td>
-              <td>Rp 375.000</td>
-              <td><span class="badge pending">Pending</span></td>
-            </tr>
-            <tr>
-              <td>#TRX003</td>
-              <td>Ahmad Wijaya</td>
-              <td>Tomat</td>
-              <td>75 kg</td>
-              <td>Rp 562.500</td>
-              <td><span class="badge active">Selesai</span></td>
-            </tr>
-            <tr>
-              <td>#TRX004</td>
-              <td>Dewi Lestari</td>
-              <td>Cabai Merah</td>
-              <td>25 kg</td>
-              <td>Rp 625.000</td>
-              <td><span class="badge active">Selesai</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </main>
+      <div class="divider">or continue with</div>
 
-    <script>
-      // Sidebar toggle
-      document
-        .getElementById("masters-toggle")
-        .addEventListener("click", () => {
-          const submenu = document.getElementById("submenu-masters");
-          const arrow = document.getElementById("arrow-masters");
-          submenu.classList.toggle("show");
-          arrow.classList.toggle("rotate");
-        });
-
-      document.addEventListener("DOMContentLoaded", function () {
-        const toggle = document.getElementById("userDropdownToggle");
-        const menu = document.getElementById("userDropdownMenu");
-
-        toggle.addEventListener("click", () => {
-          menu.classList.toggle("show");
-          toggle.classList.toggle("active");
-        });
-
-        // Tutup dropdown kalau klik di luar
-        document.addEventListener("click", (e) => {
-          if (!toggle.contains(e.target) && !menu.contains(e.target)) {
-            menu.classList.remove("show");
-            toggle.classList.remove("active");
-          }
-        });
-      });
-
-      // Bar Chart - Penjualan Bulanan
-      function drawSalesChart() {
-        const canvas = document.getElementById("salesChart");
-        const ctx = canvas.getContext("2d");
-
-        canvas.width = canvas.offsetWidth;
-        canvas.height = 300;
-
-        const data = [85, 92, 78, 95, 88, 105, 98, 110, 102, 115, 108, 125];
-        const months = [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "Mei",
-          "Jun",
-          "Jul",
-          "Agu",
-          "Sep",
-          "Okt",
-          "Nov",
-          "Des",
-        ];
-
-        const padding = 50;
-        const chartWidth = canvas.width - padding * 2;
-        const chartHeight = canvas.height - padding * 2;
-        const barWidth = chartWidth / data.length - 10;
-        const maxValue = Math.max(...data);
-
-        // Background
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Grid lines
-        ctx.strokeStyle = "#e0e0e0";
-        ctx.lineWidth = 1;
-        for (let i = 0; i <= 5; i++) {
-          const y = padding + (chartHeight / 5) * i;
-          ctx.beginPath();
-          ctx.moveTo(padding, y);
-          ctx.lineTo(canvas.width - padding, y);
-          ctx.stroke();
-
-          // Y-axis labels
-          ctx.fillStyle = "#666";
-          ctx.font = "12px Arial";
-          ctx.textAlign = "right";
-          const value = Math.round(maxValue - (maxValue / 5) * i);
-          ctx.fillText(value + "M", padding - 10, y + 4);
-        }
-
-        // Bars
-        data.forEach((value, index) => {
-          const x = padding + index * (barWidth + 10) + 5;
-          const height = (value / maxValue) * chartHeight;
-          const y = padding + chartHeight - height;
-
-          // Gradient
-          const gradient = ctx.createLinearGradient(0, y, 0, y + height);
-          gradient.addColorStop(0, "#4F46E5");
-          gradient.addColorStop(1, "#7C3AED");
-
-          ctx.fillStyle = gradient;
-          ctx.fillRect(x, y, barWidth, height);
-
-          // Value on top
-          ctx.fillStyle = "#2c3e50";
-          ctx.font = "bold 11px Arial";
-          ctx.textAlign = "center";
-          ctx.fillText(value + "M", x + barWidth / 2, y - 5);
-
-          // Month labels
-          ctx.fillStyle = "#666";
-          ctx.font = "11px Arial";
-          ctx.fillText(
-            months[index],
-            x + barWidth / 2,
-            canvas.height - padding + 20
-          );
-        });
-      }
-
-      // Donut Chart - Produk Terlaris
-      function drawProductChart() {
-        const canvas = document.getElementById("productChart");
-        const ctx = canvas.getContext("2d");
-
-        canvas.width = canvas.offsetWidth;
-        canvas.height = 300;
-
-        const products = [
-          { name: "Beras Premium", value: 35, color: "#4F46E5" },
-          { name: "Jagung Manis", value: 25, color: "#10B981" },
-          { name: "Tomat", value: 20, color: "#F59E0B" },
-          { name: "Cabai Merah", value: 12, color: "#EF4444" },
-          { name: "Lainnya", value: 8, color: "#6B7280" },
-        ];
-
-        const centerX = canvas.width / 2 - 50;
-        const centerY = canvas.height / 2;
-        const radius = 100;
-        const innerRadius = 60;
-
-        let currentAngle = -Math.PI / 2;
-        const total = products.reduce((sum, p) => sum + p.value, 0);
-
-        // Draw donut segments
-        products.forEach((product) => {
-          const sliceAngle = (product.value / total) * Math.PI * 2;
-
-          ctx.beginPath();
-          ctx.arc(
-            centerX,
-            centerY,
-            radius,
-            currentAngle,
-            currentAngle + sliceAngle
-          );
-          ctx.arc(
-            centerX,
-            centerY,
-            innerRadius,
-            currentAngle + sliceAngle,
-            currentAngle,
-            true
-          );
-          ctx.closePath();
-          ctx.fillStyle = product.color;
-          ctx.fill();
-
-          currentAngle += sliceAngle;
-        });
-
-        // Center circle
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, innerRadius, 0, Math.PI * 2);
-        ctx.fillStyle = "#ffffff";
-        ctx.fill();
-
-        // Center text
-        ctx.fillStyle = "#2c3e50";
-        ctx.font = "bold 24px Arial";
-        ctx.textAlign = "center";
-        ctx.fillText("100%", centerX, centerY);
-        ctx.font = "12px Arial";
-        ctx.fillStyle = "#666";
-        ctx.fillText("Total Produk", centerX, centerY + 20);
-
-        // Legend
-        const legendX = centerX + radius + 40;
-        let legendY = centerY - 80;
-
-        products.forEach((product) => {
-          // Color box
-          ctx.fillStyle = product.color;
-          ctx.fillRect(legendX, legendY, 15, 15);
-
-          // Text
-          ctx.fillStyle = "#2c3e50";
-          ctx.font = "13px Arial";
-          ctx.textAlign = "left";
-          ctx.fillText(product.name, legendX + 25, legendY + 12);
-
-          // Percentage
-          ctx.fillStyle = "#666";
-          ctx.font = "bold 13px Arial";
-          ctx.fillText(product.value + "%", legendX + 150, legendY + 12);
-
-          legendY += 30;
-        });
-      }
-
-      // Draw charts when page loads
-      window.addEventListener("load", () => {
-        drawSalesChart();
-        drawProductChart();
-      });
-
-      // Redraw on resize
-      window.addEventListener("resize", () => {
-        drawSalesChart();
-        drawProductChart();
-      });
-    </script>
+      <button class="btn-google">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/281/281764.png"
+          alt="Google"
+        />
+        Sign in with Google
+      </button>
+    </div>
   </body>
 </html>

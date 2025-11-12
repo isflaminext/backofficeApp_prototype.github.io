@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Web Apps - Redeems</title>
+    <title>Admin Web Apps - Dashboard</title>
     <link
       rel="stylesheet"
       href="https://cdn-uicons.flaticon.com/3.0.0/uicons-bold-rounded/css/uicons-bold-rounded.css"
@@ -20,7 +20,6 @@
         background: #f5f7fa;
       }
 
-      /* Navbar */
       .navbar {
         background: linear-gradient(155deg, #2ec0cc, #0072ff);
         color: white;
@@ -285,7 +284,6 @@
         color: #000;
       }
 
-      /* Main Content */
       .main-content {
         margin-left: 250px;
         margin-top: 65px;
@@ -308,7 +306,6 @@
         color: #7f8c8d;
       }
 
-      /* Stats Cards */
       .stats-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -356,26 +353,25 @@
       }
 
       .stat-icon.sales {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
+        background: #c5cffc;
+        color: #4f46e5;
       }
 
       .stat-icon.farmers {
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        color: white;
+        background: #c0ffc0;
+        color: #46e546;
       }
 
       .stat-icon.retailers {
-        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        color: white;
+        background: #f3daa4;
+        color: #e5b346;
       }
 
       .stat-icon.users {
-        background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-        color: white;
+        background: #e499f7;
+        color: #c546e5;
       }
 
-      /* Charts Section */
       .charts-section {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -396,7 +392,17 @@
         margin-bottom: 1rem;
       }
 
-      /* Table */
+      .chart-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+      }
+
+      .chart-container canvas {
+        width: 100% !important;
+        height: 100% !important;
+      }
+
       .table-card {
         background: white;
         padding: 1.5rem;
@@ -408,7 +414,7 @@
       table {
         width: 100%;
         border-collapse: collapse;
-        min-width: 800px;
+        min-width: 600px;
       }
 
       thead {
@@ -425,82 +431,28 @@
       th {
         font-weight: 600;
         color: #2c3e50;
-        white-space: nowrap;
       }
 
       tbody tr:hover {
         background: #f8f9fa;
       }
 
-      /* Badge */
       .badge {
-        display: inline-block;
-        padding: 0.35rem 0.75rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
         font-size: 0.85rem;
         font-weight: 500;
-        border-radius: 20px;
-        color: white;
         white-space: nowrap;
       }
 
-      .badge-primary {
-        background: #3498db;
+      .badge.active {
+        background: #d4edda;
+        color: #155724;
       }
 
-      .badge-warning {
-        background: #f1c40f;
-        color: #2c3e50;
-      }
-
-      .badge-dark {
-        background: #2c3e50;
-      }
-
-      .badge-success {
-        background: #2ecc71;
-      }
-
-      .badge-danger {
-        background: #e74c3c;
-      }
-
-      /* Action Buttons */
-      .action-buttons {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 0.5rem;
-      }
-
-      .btn-icon {
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 1rem;
-        padding: 0.4rem 0.5rem;
-        border-radius: 6px;
-        transition: all 0.2s ease;
-      }
-
-      .btn-show {
-        color: #3498db;
-      }
-      
-      .btn-edit {
-        color: #2ecc71;
-      }
-      
-      .btn-delete {
-        color: #e74c3c;
-      }
-
-      .btn-icon:hover {
-        background: #f0f0f0;
-        transform: scale(1.1);
-      }
-
-      .text-center {
-        text-align: center;
+      .badge.pending {
+        background: #fff3cd;
+        color: #856404;
       }
 
       /* Mobile Responsive */
@@ -598,24 +550,10 @@
           right: -10px;
         }
 
-        table {
-          font-size: 0.85rem;
-          min-width: 700px;
-        }
-
         th,
         td {
           padding: 0.75rem 0.5rem;
-        }
-
-        .badge {
-          font-size: 0.75rem;
-          padding: 0.25rem 0.5rem;
-        }
-
-        .btn-icon {
           font-size: 0.9rem;
-          padding: 0.3rem 0.4rem;
         }
       }
 
@@ -624,36 +562,28 @@
           padding: 0.75rem;
         }
 
-        .main-content {
-          padding: 0.75rem;
+        .stats-grid {
+          grid-template-columns: 1fr;
         }
 
-        .page-title {
-          font-size: 1.25rem;
+        .stat-card {
+          flex-direction: column;
+          text-align: center;
+          gap: 1rem;
         }
 
-        .table-card {
-          padding: 0.75rem;
+        .chart-container {
+          height: 250px;
         }
 
         table {
-          font-size: 0.8rem;
-          min-width: 650px;
-        }
-
-        th,
-        td {
-          padding: 0.5rem 0.4rem;
-        }
-
-        .action-buttons {
-          gap: 0.25rem;
+          font-size: 0.85rem;
+          min-width: 500px;
         }
       }
     </style>
   </head>
   <body>
-    <!-- Navbar -->
     <nav class="navbar">
       <div class="navbar-left">
         <button class="menu-toggle" id="menuToggle">
@@ -686,8 +616,8 @@
 
     <aside class="sidebar" id="sidebar">
       <ul class="sidebar-menu">
-        <li class="menu-item">
-          <a href="../dashboard/index.html" class="menu-link">
+        <li class="menu-item active">
+          <a href="index.html" class="menu-link">
             <span class="menu-icon"><i class="fi fi-br-dashboard"></i></span>
             <span class="menu-text">Dashboard</span>
           </a>
@@ -718,8 +648,8 @@
             <span class="menu-text">Knowledge Base</span>
           </a>
         </li>
-        <li class="menu-item active">
-          <a href="index.html" class="menu-link">
+        <li class="menu-item">
+          <a href="../promotions/index.html" class="menu-link">
             <span class="menu-icon"><i class="fi fi-br-megaphone"></i></span>
             <span class="menu-text">Promotions</span>
           </a>
@@ -733,85 +663,111 @@
       </ul>
     </aside>
 
-    <!-- Main Content -->
     <main class="main-content">
+      <div class="page-header">
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">
+          Selamat datang di sistem manajemen penjualan pertanian
+        </p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-info">
+            <h3>Total Sales</h3>
+            <div class="stat-value">Rp 125.5M</div>
+          </div>
+          <div class="stat-icon sales">
+            <i class="fi fi-br-sack-dollar"></i>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <h3>Petani Terdaftar</h3>
+            <div class="stat-value">1,248</div>
+          </div>
+          <div class="stat-icon farmers">
+            <i class="fi fi-br-users-alt"></i>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <h3>Retailer Terdaftar</h3>
+            <div class="stat-value">342</div>
+          </div>
+          <div class="stat-icon retailers">
+            <i class="fi fi-br-users-alt"></i>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <h3>User Terdaftar</h3>
+            <div class="stat-value">5,647</div>
+          </div>
+          <div class="stat-icon users"><i class="fi fi-br-users-alt"></i></div>
+        </div>
+      </div>
+
+      <div class="charts-section">
+        <div class="chart-card">
+          <h2 class="chart-title">Penjualan Bulanan</h2>
+          <div class="chart-container">
+            <canvas id="salesChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card">
+          <h2 class="chart-title">Produk Terlaris</h2>
+          <div class="chart-container">
+            <canvas id="productChart"></canvas>
+          </div>
+        </div>
+      </div>
+
       <div class="table-card">
-        <h2 class="chart-title">Promotions</h2>
+        <h2 class="chart-title">Transaksi Terbaru</h2>
         <table>
           <thead>
             <tr>
-              <th>No.</th>
-              <th>Timer</th>
-              <th>Promosi</th>
-              <th>Periode</th>
-              <th>Diskon</th>
-              <th>Barang</th>
-              <th class="text-center">Action</th>
+              <th>ID</th>
+              <th>Petani</th>
+              <th>Produk</th>
+              <th>Jumlah</th>
+              <th>Total</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>1</td>
-              <td>
-                <span class="badge timer-badge">7 days</span>
-              </td>
-              <td>Harbolnas 11.11</td>
-              <td>11 November 2025 00.01 - 11 November 2025 23.59</td>
-              <td>10%</td>
+              <td>#TRX001</td>
+              <td>Budi Santoso</td>
               <td>Beras Premium</td>
-              <td class="action-buttons">
-                <button class="btn-icon btn-show" title="Show">
-                  <i class="fi fi-br-eye"></i>
-                </button>
-                <button class="btn-icon btn-edit" title="Edit">
-                  <i class="fi fi-br-edit"></i>
-                </button>
-                <button class="btn-icon btn-delete" title="Delete">
-                  <i class="fi fi-br-trash"></i>
-                </button>
-              </td>
+              <td>100 kg</td>
+              <td>Rp 1.250.000</td>
+              <td><span class="badge active">Selesai</span></td>
             </tr>
             <tr>
-              <td>2</td>
-              <td>
-                <span class="badge timer-badge">21:30:45</span>
-              </td>
-              <td>Harbolnas 11.11</td>
-              <td>11 November 2025 00.01 - 11 November 2025 23.59</td>
-              <td>10%</td>
-              <td>Beras Premium</td>
-              <td class="action-buttons">
-                <button class="btn-icon btn-show" title="Show">
-                  <i class="fi fi-br-eye"></i>
-                </button>
-                <button class="btn-icon btn-edit" title="Edit">
-                  <i class="fi fi-br-edit"></i>
-                </button>
-                <button class="btn-icon btn-delete" title="Delete">
-                  <i class="fi fi-br-trash"></i>
-                </button>
-              </td>
+              <td>#TRX002</td>
+              <td>Siti Rahayu</td>
+              <td>Jagung Manis</td>
+              <td>50 kg</td>
+              <td>Rp 375.000</td>
+              <td><span class="badge pending">Pending</span></td>
             </tr>
             <tr>
-              <td>3</td>
-              <td>
-                <span class="badge timer-badge">Selesai</span>
-              </td>
-              <td>Harbolnas 11.11</td>
-              <td>11 November 2025 00.01 - 11 November 2025 23.59</td>
-              <td>10%</td>
-              <td>Beras Premium</td>
-              <td class="action-buttons">
-                <button class="btn-icon btn-show" title="Show">
-                  <i class="fi fi-br-eye"></i>
-                </button>
-                <button class="btn-icon btn-edit" title="Edit">
-                  <i class="fi fi-br-edit"></i>
-                </button>
-                <button class="btn-icon btn-delete" title="Delete">
-                  <i class="fi fi-br-trash"></i>
-                </button>
-              </td>
+              <td>#TRX003</td>
+              <td>Ahmad Wijaya</td>
+              <td>Tomat</td>
+              <td>75 kg</td>
+              <td>Rp 562.500</td>
+              <td><span class="badge active">Selesai</span></td>
+            </tr>
+            <tr>
+              <td>#TRX004</td>
+              <td>Dewi Lestari</td>
+              <td>Cabai Merah</td>
+              <td>25 kg</td>
+              <td>Rp 625.000</td>
+              <td><span class="badge active">Selesai</span></td>
             </tr>
           </tbody>
         </table>
@@ -870,6 +826,145 @@
             toggle.classList.remove("active");
           }
         });
+      });
+
+      // Bar Chart - Penjualan Bulanan
+      function drawSalesChart() {
+        const canvas = document.getElementById("salesChart");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = canvas.offsetWidth;
+        canvas.height = 300;
+
+        const data = [85, 92, 78, 95, 88, 105, 98, 110, 102, 115, 108, 125];
+        const months = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+
+        const padding = 50;
+        const chartWidth = canvas.width - padding * 2;
+        const chartHeight = canvas.height - padding * 2;
+        const barWidth = chartWidth / data.length - 10;
+        const maxValue = Math.max(...data);
+
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.strokeStyle = "#e0e0e0";
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 5; i++) {
+          const y = padding + (chartHeight / 5) * i;
+          ctx.beginPath();
+          ctx.moveTo(padding, y);
+          ctx.lineTo(canvas.width - padding, y);
+          ctx.stroke();
+
+          ctx.fillStyle = "#666";
+          ctx.font = "12px Arial";
+          ctx.textAlign = "right";
+          const value = Math.round(maxValue - (maxValue / 5) * i);
+          ctx.fillText(value + "M", padding - 10, y + 4);
+        }
+
+        data.forEach((value, index) => {
+          const x = padding + index * (barWidth + 10) + 5;
+          const height = (value / maxValue) * chartHeight;
+          const y = padding + chartHeight - height;
+
+          const gradient = ctx.createLinearGradient(0, y, 0, y + height);
+          gradient.addColorStop(0, "#4F46E5");
+          gradient.addColorStop(1, "#7C3AED");
+
+          ctx.fillStyle = gradient;
+          ctx.fillRect(x, y, barWidth, height);
+
+          ctx.fillStyle = "#2c3e50";
+          ctx.font = "bold 11px Arial";
+          ctx.textAlign = "center";
+          ctx.fillText(value + "M", x + barWidth / 2, y - 5);
+
+          ctx.fillStyle = "#666";
+          ctx.font = "11px Arial";
+          ctx.fillText(months[index], x + barWidth / 2, canvas.height - padding + 20);
+        });
+      }
+
+      // Donut Chart - Produk Terlaris
+      function drawProductChart() {
+        const canvas = document.getElementById("productChart");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = canvas.offsetWidth;
+        canvas.height = 300;
+
+        const products = [
+          { name: "Beras Premium", value: 35, color: "#4F46E5" },
+          { name: "Jagung Manis", value: 25, color: "#10B981" },
+          { name: "Tomat", value: 20, color: "#F59E0B" },
+          { name: "Cabai Merah", value: 12, color: "#EF4444" },
+          { name: "Lainnya", value: 8, color: "#6B7280" },
+        ];
+
+        const centerX = canvas.width / 2 - 50;
+        const centerY = canvas.height / 2;
+        const radius = 100;
+        const innerRadius = 60;
+
+        let currentAngle = -Math.PI / 2;
+        const total = products.reduce((sum, p) => sum + p.value, 0);
+
+        products.forEach((product) => {
+          const sliceAngle = (product.value / total) * Math.PI * 2;
+
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);
+          ctx.arc(centerX, centerY, innerRadius, currentAngle + sliceAngle, currentAngle, true);
+          ctx.closePath();
+          ctx.fillStyle = product.color;
+          ctx.fill();
+
+          currentAngle += sliceAngle;
+        });
+
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, innerRadius, 0, Math.PI * 2);
+        ctx.fillStyle = "#ffffff";
+        ctx.fill();
+
+        ctx.fillStyle = "#2c3e50";
+        ctx.font = "bold 24px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText("100%", centerX, centerY);
+        ctx.font = "12px Arial";
+        ctx.fillStyle = "#666";
+        ctx.fillText("Total Produk", centerX, centerY + 20);
+
+        const legendX = centerX + radius + 40;
+        let legendY = centerY - 80;
+
+        products.forEach((product) => {
+          ctx.fillStyle = product.color;
+          ctx.fillRect(legendX, legendY, 15, 15);
+
+          ctx.fillStyle = "#2c3e50";
+          ctx.font = "13px Arial";
+          ctx.textAlign = "left";
+          ctx.fillText(product.name, legendX + 25, legendY + 12);
+
+          ctx.fillStyle = "#666";
+          ctx.font = "bold 13px Arial";
+          ctx.fillText(product.value + "%", legendX + 150, legendY + 12);
+
+          legendY += 30;
+        });
+      }
+
+      window.addEventListener("load", () => {
+        drawSalesChart();
+        drawProductChart();
+      });
+
+      window.addEventListener("resize", () => {
+        drawSalesChart();
+        drawProductChart();
       });
     </script>
   </body>

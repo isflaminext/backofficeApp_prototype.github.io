@@ -36,6 +36,26 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
 
+      .navbar-left {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        width: 40px;
+        height: 40px;
+        align-items: center;
+        justify-content: center;
+      }
+
       .navbar-brand {
         font-size: 1.5rem;
         font-weight: bold;
@@ -44,11 +64,21 @@
         gap: 0.5rem;
       }
 
-      .navbar-brand img {
-        width: 50px;
-        height: 50px;
+      .navbar-brand-logo {
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
-        object-fit: cover;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #1ea0af;
+        font-size: 1.2rem;
+      }
+
+      .navbar-brand-text {
+        display: inline;
       }
 
       .navbar-user {
@@ -78,6 +108,10 @@
         gap: 0.5rem;
         cursor: pointer;
         user-select: none;
+      }
+
+      .user-name {
+        display: inline;
       }
 
       .user-info i {
@@ -140,11 +174,25 @@
         left: 0;
         top: 65px;
         width: 250px;
-        height: calc(100vh - 60px);
+        height: calc(100vh - 65px);
         background: white;
         box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
         overflow-y: auto;
         transition: transform 0.3s ease;
+        z-index: 999;
+      }
+
+      .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 65px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 998;
+        opacity: 0;
+        transition: opacity 0.3s ease;
       }
 
       .sidebar-menu {
@@ -240,9 +288,10 @@
       /* Main Content */
       .main-content {
         margin-left: 250px;
-        margin-top: 60px;
+        margin-top: 65px;
         padding: 2rem;
-        min-height: calc(100vh - 60px);
+        min-height: calc(100vh - 65px);
+        transition: margin-left 0.3s ease;
       }
 
       .page-header {
@@ -262,7 +311,7 @@
       /* Stats Cards */
       .stats-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 1.5rem;
         margin-bottom: 2rem;
       }
@@ -272,10 +321,9 @@
         padding: 1.5rem;
         border-radius: 10px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        transition: transform 0.2s;
+        flex-direction: column;
       }
 
       .stat-card:hover {
@@ -286,20 +334,22 @@
       .stat-info {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        height: 100%;
+        flex: 1;
       }
 
       .stat-info h4 {
         color: #2c3e50;
         font-size: 1.1rem;
         margin-bottom: 0.5rem;
+        line-height: 1.4;
       }
 
       .stat-info p {
         color: #7f8c8d;
         font-size: 0.9rem;
         margin-bottom: 1rem;
+        line-height: 1.6;
+        flex: 1;
       }
 
       /* Baris bawah: link & tombol sejajar */
@@ -307,6 +357,8 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        margin-top: auto;
+        padding-top: 0.5rem;
       }
 
       /* Tombol icon */
@@ -322,11 +374,13 @@
         text-decoration: none;
         transition: all 0.2s ease;
         font-size: 1.1rem;
+        flex-shrink: 0;
       }
 
       .btn-icon:hover {
         background: #e0a800;
         color: white;
+        transform: scale(1.05);
       }
 
       /* Link baca selengkapnya */
@@ -335,29 +389,131 @@
         text-decoration: none;
         font-weight: 500;
         transition: color 0.2s ease;
+        font-size: 0.9rem;
       }
 
       .read-more:hover {
         color: #1d6fa5;
+        text-decoration: underline;
       }
 
-      /* Responsive */
+      /* Mobile Responsive */
       @media (max-width: 768px) {
+        .navbar {
+          padding: 1rem;
+        }
+
+        .menu-toggle {
+          display: flex;
+        }
+
+        .navbar-brand-text {
+          display: none;
+        }
+
+        .navbar-brand-logo {
+          width: 35px;
+          height: 35px;
+          font-size: 1rem;
+        }
+
+        .user-name {
+          display: none;
+        }
+
+        .user-avatar {
+          width: 35px;
+          height: 35px;
+        }
+
         .sidebar {
-          transform: translateX(-250px);
+          transform: translateX(-100%);
         }
 
         .sidebar.show {
           transform: translateX(0);
         }
 
-        .main-content {
-          margin-left: 0;
+        .sidebar-overlay.show {
+          display: block;
+          opacity: 1;
         }
 
-        .stats-grid,
-        .charts-section {
+        .main-content {
+          margin-left: 0;
+          padding: 1rem;
+        }
+
+        .page-title {
+          font-size: 1.5rem;
+        }
+
+        .stats-grid {
           grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        .stat-card {
+          padding: 1.25rem;
+        }
+
+        .stat-info h4 {
+          font-size: 1rem;
+        }
+
+        .stat-info p {
+          font-size: 0.85rem;
+        }
+
+        .read-more {
+          font-size: 0.85rem;
+        }
+
+        .btn-icon {
+          width: 32px;
+          height: 32px;
+          font-size: 1rem;
+        }
+
+        .dropdown-menu {
+          right: -10px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .navbar {
+          padding: 0.75rem;
+        }
+
+        .main-content {
+          padding: 0.75rem;
+        }
+
+        .page-title {
+          font-size: 1.25rem;
+        }
+
+        .stat-card {
+          padding: 1rem;
+        }
+
+        .stat-info h4 {
+          font-size: 0.95rem;
+        }
+
+        .stat-info p {
+          font-size: 0.8rem;
+          margin-bottom: 0.75rem;
+        }
+
+        .stat-footer {
+          padding-top: 0.25rem;
+        }
+      }
+
+      @media (min-width: 769px) and (max-width: 1024px) {
+        .stats-grid {
+          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         }
       }
     </style>
@@ -365,29 +521,20 @@
   <body>
     <!-- Navbar -->
     <nav class="navbar">
-      <div class="navbar-brand">
-        <div
-          style="
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #1ea0af;
-          "
-        >
-          A
+      <div class="navbar-left">
+        <button class="menu-toggle" id="menuToggle">
+          <i class="fi fi-br-menu-burger"></i>
+        </button>
+        <div class="navbar-brand">
+          <div class="navbar-brand-logo">A</div>
+          <span class="navbar-brand-text">Advanta</span>
         </div>
-        <span>Advanta</span>
       </div>
 
       <div class="navbar-user">
         <div class="user-dropdown">
           <div class="user-info" id="userDropdownToggle">
-            <span>Admin</span>
+            <span class="user-name">Admin</span>
             <div class="user-avatar">A</div>
             <i class="fi fi-br-angle-down"></i>
           </div>
@@ -395,25 +542,23 @@
           <div class="dropdown-menu" id="userDropdownMenu">
             <a href="#" class="dropdown-item">Profil Saya</a>
             <hr />
-            <a href="../auth/login.html" class="dropdown-item logout-btn"
-              >Logout</a
-            >
+            <a href="../index.html" class="dropdown-item logout-btn">Logout</a>
           </div>
         </div>
       </div>
     </nav>
 
-    <!-- Sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <aside class="sidebar" id="sidebar">
       <ul class="sidebar-menu">
         <li class="menu-item">
-          <a href="../index.html" class="menu-link">
+          <a href="../dashboard/index.html" class="menu-link">
             <span class="menu-icon"><i class="fi fi-br-dashboard"></i></span>
             <span class="menu-text">Dashboard</span>
           </a>
         </li>
 
-        <!-- Dropdown Masters -->
         <li class="menu-item" id="masters-toggle">
           <div class="menu-link">
             <span class="menu-icon"><i class="fi fi-br-folder-open"></i></span>
@@ -463,73 +608,78 @@
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-info">
-            <h4>Judul Knowledge Base</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <h4>Panduan Bertani Organik</h4>
+            <p>Pelajari teknik bertani organik yang ramah lingkungan dan menghasilkan produk berkualitas tinggi.</p>
             <div class="stat-footer">
               <a href="#" class="read-more">Baca Selengkapnya</a>
-              <a href="#" class="btn-icon"
-                ><i class="fi fi-br-file-edit"></i
-              ></a>
+              <a href="#" class="btn-icon" title="Edit">
+                <i class="fi fi-br-file-edit"></i>
+              </a>
             </div>
           </div>
         </div>
+        
         <div class="stat-card">
           <div class="stat-info">
-            <h4>Judul Knowledge Base</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <h4>Teknik Irigasi Modern</h4>
+            <p>Sistem irigasi hemat air untuk meningkatkan efisiensi pengairan lahan pertanian Anda.</p>
             <div class="stat-footer">
               <a href="#" class="read-more">Baca Selengkapnya</a>
-              <a href="#" class="btn-icon"
-                ><i class="fi fi-br-file-edit"></i
-              ></a>
+              <a href="#" class="btn-icon" title="Edit">
+                <i class="fi fi-br-file-edit"></i>
+              </a>
             </div>
           </div>
         </div>
+        
         <div class="stat-card">
           <div class="stat-info">
-            <h4>Judul Knowledge Base</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <h4>Pengelolaan Hama Terpadu</h4>
+            <p>Cara mengendalikan hama tanaman secara alami tanpa merusak ekosistem pertanian.</p>
             <div class="stat-footer">
               <a href="#" class="read-more">Baca Selengkapnya</a>
-              <a href="#" class="btn-icon"
-                ><i class="fi fi-br-file-edit"></i
-              ></a>
+              <a href="#" class="btn-icon" title="Edit">
+                <i class="fi fi-br-file-edit"></i>
+              </a>
             </div>
           </div>
         </div>
+        
         <div class="stat-card">
           <div class="stat-info">
-            <h4>Judul Knowledge Base</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <h4>Budidaya Sayuran Hidroponik</h4>
+            <p>Panduan lengkap menanam sayuran dengan sistem hidroponik untuk hasil maksimal.</p>
             <div class="stat-footer">
               <a href="#" class="read-more">Baca Selengkapnya</a>
-              <a href="#" class="btn-icon"
-                ><i class="fi fi-br-file-edit"></i
-              ></a>
+              <a href="#" class="btn-icon" title="Edit">
+                <i class="fi fi-br-file-edit"></i>
+              </a>
             </div>
           </div>
         </div>
+        
         <div class="stat-card">
           <div class="stat-info">
-            <h4>Judul Knowledge Base</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <h4>Pemupukan yang Tepat</h4>
+            <p>Mengenal jenis pupuk dan cara aplikasi yang efektif untuk berbagai jenis tanaman.</p>
             <div class="stat-footer">
               <a href="#" class="read-more">Baca Selengkapnya</a>
-              <a href="#" class="btn-icon"
-                ><i class="fi fi-br-file-edit"></i
-              ></a>
+              <a href="#" class="btn-icon" title="Edit">
+                <i class="fi fi-br-file-edit"></i>
+              </a>
             </div>
           </div>
         </div>
+        
         <div class="stat-card">
           <div class="stat-info">
-            <h4>Judul Knowledge Base</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <h4>Pascapanen dan Penyimpanan</h4>
+            <p>Tips menjaga kualitas hasil panen agar tetap segar dan tahan lama untuk dipasarkan.</p>
             <div class="stat-footer">
               <a href="#" class="read-more">Baca Selengkapnya</a>
-              <a href="#" class="btn-icon"
-                ><i class="fi fi-br-file-edit"></i
-              ></a>
+              <a href="#" class="btn-icon" title="Edit">
+                <i class="fi fi-br-file-edit"></i>
+              </a>
             </div>
           </div>
         </div>
@@ -537,27 +687,51 @@
     </main>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const mastersToggle = document.getElementById("masters-toggle");
-        const submenu = document.getElementById("submenu-masters");
-        const arrow = document.getElementById("arrow-masters");
+      // Mobile menu toggle
+      const menuToggle = document.getElementById("menuToggle");
+      const sidebar = document.getElementById("sidebar");
+      const sidebarOverlay = document.getElementById("sidebarOverlay");
 
-        mastersToggle.addEventListener("click", () => {
-          submenu.classList.toggle("show");
-          arrow.classList.toggle("rotate");
+      menuToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("show");
+        sidebarOverlay.classList.toggle("show");
+      });
+
+      sidebarOverlay.addEventListener("click", () => {
+        sidebar.classList.remove("show");
+        sidebarOverlay.classList.remove("show");
+      });
+
+      // Close sidebar when clicking menu item on mobile
+      const menuItems = document.querySelectorAll(".menu-item a, .submenu-item a");
+      menuItems.forEach(item => {
+        item.addEventListener("click", () => {
+          if (window.innerWidth <= 768) {
+            sidebar.classList.remove("show");
+            sidebarOverlay.classList.remove("show");
+          }
         });
       });
 
+      // Submenu toggle
+      document.getElementById("masters-toggle").addEventListener("click", () => {
+        const submenu = document.getElementById("submenu-masters");
+        const arrow = document.getElementById("arrow-masters");
+        submenu.classList.toggle("show");
+        arrow.classList.toggle("rotate");
+      });
+
+      // User dropdown
       document.addEventListener("DOMContentLoaded", function () {
         const toggle = document.getElementById("userDropdownToggle");
         const menu = document.getElementById("userDropdownMenu");
 
-        toggle.addEventListener("click", () => {
+        toggle.addEventListener("click", (e) => {
+          e.stopPropagation();
           menu.classList.toggle("show");
           toggle.classList.toggle("active");
         });
 
-        // Tutup dropdown kalau klik di luar
         document.addEventListener("click", (e) => {
           if (!toggle.contains(e.target) && !menu.contains(e.target)) {
             menu.classList.remove("show");
